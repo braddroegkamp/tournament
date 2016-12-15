@@ -1,3 +1,8 @@
+-- create DB
+DROP DATABASE IF EXISTS tournament;
+CREATE DATABASE tournament;
+\c tournament
+
 -- table of registered players
 CREATE TABLE players ( name TEXT,
 					   id SERIAL PRIMARY KEY);
@@ -5,9 +10,10 @@ CREATE TABLE players ( name TEXT,
 -- table of match results
 CREATE TABLE match_results ( winner_id INTEGER REFERENCES players(id), 
 							 loser_id INTEGER REFERENCES players(id), 
+							 id SERIAL PRIMARY KEY,
 							 tourney_id INTEGER);
 
--- view returns id and name of each registered player along with wins and matches played, ordered by most wins
+-- view returns id and name of each registered player along with wins and matches played
 CREATE VIEW standings AS WITH winners AS ( --temp table of total win count
 							 SELECT p.id AS id, 
 							  		p.name AS name, 
